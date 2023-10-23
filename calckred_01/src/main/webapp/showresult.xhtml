@@ -16,7 +16,9 @@
 			<p:messages />
 			<div class="bottom-space">
 				<h:outputText value="Rata: #{kredytBB.rata} zł"
-					rendered="#{kredytBB.rata != null}" />
+					rendered="#{kredytBB.rata != null}" >
+					<f:convertNumber maximumFractionDigits="2" />
+				</h:outputText>
 			</div>
 			<h:form>
 				<p:commandButton value="Powrót" action="index" />

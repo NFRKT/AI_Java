@@ -1,34 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <ui:composition template="/templates/page-template.xhtml">
 
-	<ui:define name="pageContent">
+    <ui:define name="pageContent">
 
-		<p:panel header="Oblicz ratę swojego kredytu!">
+        <p:panel header="Panel do obliczai">
 
-			<p:messages id="msg" />
+            <p:messages id="msg" />
 
-			<h:form>
-				<h:panelGrid columns="2" cellpadding="5" styleClass="bottom-space">
-					<p:outputLabel for="idkwota" value="Kwota kredytu:" />
-					<p:inputText id="idkwota" value="#{kredytBB.kwota}"/>
-					<p:outputLabel for="idokres" value="Okres spłaty:" />
-					<p:inputText id="idokres" value="#{kredytBB.okres}"/>
-					<p:outputLabel for="idoprocentowanie" value="Wysokość oprocentowania:" />
-					<p:inputText id="idoprocentowanie" value="#{kredytBB.oprocentowanie}"/>
-					<p:commandButton value="Oblicz ratę kredytu" action="#{kredytBB.calc()}" update="msg" />
-				</h:panelGrid>
-			</h:form>
-			
-		</p:panel>
+            <h:form>
+                <h:panelGrid columns="2" cellpadding="5" styleClass="bottom-space">
+                    <p:outputLabel for="idkwota" value="Kwota kredytu:" />
+                    <p:inputText id="idkwota" value="#{kredytBB.kwota}"
+                    required="true"
+                    requiredMessage="brak kwoty kredytu"
+                    validatorMessage="Zakres kwoty kresytu to 100zł-1000000zł!"
+                    converterMessage="Nie wpisano liczby - błąd znaków!">
+                    <f:validateDoubleRange minimum="100" maximum="1000000"/>
+                    <f:convertNumber integerOnly="true"/>
+                    </p:inputText>
 
-	</ui:define>
+                    <p:outputLabel for="idokres" value="Okres spłaty:" />
+                    <p:inputText id="idokres" value="#{kredytBB.okres}"
+                    required="true"
+                    requiredMessage="brak okresu spłaty"
+                    validatorMessage="Maksymalny okres spłaty to 30 lat!"
+                    converterMessage="Nie wpisano liczby - błąd znaków!">
+                    <f:validateDoubleRange maximum="30"/>
+                    <f:convertNumber integerOnly="true"/>
+                    </p:inputText>
+                    
+                    <p:outputLabel for="idoprocentowanie" value="Wysokość oprocentowania:" />
+                    <p:inputText id="idoprocentowanie" value="#{kredytBB.oprocentowanie}"
+                    required="true"
+                    requiredMessage="brak wysokości oprocentowania"
+                    validatorMessage="Zakres oprocentowania to 1-100!"
+                    converterMessage="Nie wpisano liczby - błąd znaków!">
+                    <f:validateDoubleRange minimum="1" maximum="100"/>
+                    <f:convertNumber integerOnly="true"/>
+                    </p:inputText>
+                    
+                    <p:commandButton value="Oblicz" action="#{kredytBB.calc()}" update="msg" />
+                    
+                </h:panelGrid>
+            </h:form>
+
+        </p:panel>
+
+    </ui:define>
 
 </ui:composition>
 </html>
